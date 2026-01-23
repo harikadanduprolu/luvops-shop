@@ -1,0 +1,245 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Romantic pastel palette */
+    --background: 20 33% 98%;
+    --foreground: 350 20% 20%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 350 20% 20%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 350 20% 20%;
+
+    /* Blush pink primary */
+    --primary: 350 60% 70%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Lavender secondary */
+    --secondary: 280 40% 90%;
+    --secondary-foreground: 280 30% 30%;
+
+    /* Mauve muted */
+    --muted: 320 20% 94%;
+    --muted-foreground: 320 15% 45%;
+
+    /* Cream accent */
+    --accent: 40 50% 95%;
+    --accent-foreground: 40 30% 25%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 350 30% 92%;
+    --input: 350 30% 92%;
+    --ring: 350 60% 70%;
+
+    --radius: 1.25rem;
+
+    /* Custom romantic colors */
+    --blush: 350 60% 75%;
+    --lavender: 280 45% 80%;
+    --mauve: 320 30% 70%;
+    --cream: 40 50% 96%;
+    --rose-mist: 340 40% 92%;
+    --soft-lilac: 270 35% 88%;
+
+    /* Gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(350 60% 92%) 0%, hsl(280 45% 92%) 50%, hsl(320 30% 90%) 100%);
+    --gradient-card: linear-gradient(180deg, hsl(0 0% 100% / 0.9) 0%, hsl(350 30% 98% / 0.8) 100%);
+    --gradient-wave: linear-gradient(180deg, hsl(350 60% 95%) 0%, hsl(280 40% 95%) 50%, hsl(40 50% 97%) 100%);
+    --gradient-button: linear-gradient(135deg, hsl(350 60% 70%) 0%, hsl(320 50% 65%) 100%);
+    --gradient-glass: linear-gradient(135deg, hsl(0 0% 100% / 0.6) 0%, hsl(0 0% 100% / 0.3) 100%);
+
+    /* Shadows */
+    --shadow-soft: 0 4px 24px -4px hsl(350 30% 70% / 0.15);
+    --shadow-card: 0 8px 32px -8px hsl(350 30% 60% / 0.12);
+    --shadow-hover: 0 12px 40px -8px hsl(350 30% 60% / 0.2);
+    --shadow-glow: 0 0 40px hsl(350 60% 80% / 0.3);
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 350 20% 8%;
+    --foreground: 350 20% 95%;
+
+    --card: 350 20% 12%;
+    --card-foreground: 350 20% 95%;
+
+    --popover: 350 20% 12%;
+    --popover-foreground: 350 20% 95%;
+
+    --primary: 350 55% 65%;
+    --primary-foreground: 350 20% 8%;
+
+    --secondary: 280 30% 20%;
+    --secondary-foreground: 280 30% 90%;
+
+    --muted: 320 15% 18%;
+    --muted-foreground: 320 15% 65%;
+
+    --accent: 40 30% 15%;
+    --accent-foreground: 40 30% 90%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 350 20% 18%;
+    --input: 350 20% 18%;
+    --ring: 350 55% 65%;
+
+    --blush: 350 50% 55%;
+    --lavender: 280 35% 50%;
+    --mauve: 320 25% 45%;
+    --cream: 40 30% 20%;
+    --rose-mist: 340 30% 20%;
+    --soft-lilac: 270 25% 25%;
+
+    --gradient-hero: linear-gradient(135deg, hsl(350 30% 12%) 0%, hsl(280 25% 15%) 50%, hsl(320 20% 12%) 100%);
+    --gradient-card: linear-gradient(180deg, hsl(350 20% 14% / 0.9) 0%, hsl(350 15% 10% / 0.8) 100%);
+    --gradient-wave: linear-gradient(180deg, hsl(350 20% 10%) 0%, hsl(280 20% 12%) 50%, hsl(40 20% 10%) 100%);
+    --gradient-button: linear-gradient(135deg, hsl(350 55% 55%) 0%, hsl(320 45% 50%) 100%);
+    --gradient-glass: linear-gradient(135deg, hsl(0 0% 100% / 0.1) 0%, hsl(0 0% 100% / 0.05) 100%);
+
+    --shadow-soft: 0 4px 24px -4px hsl(0 0% 0% / 0.3);
+    --shadow-card: 0 8px 32px -8px hsl(0 0% 0% / 0.4);
+    --shadow-hover: 0 12px 40px -8px hsl(0 0% 0% / 0.5);
+    --shadow-glow: 0 0 40px hsl(350 50% 40% / 0.3);
+
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', Georgia, serif;
+    @apply font-medium tracking-tight;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply backdrop-blur-xl border border-white/20;
+    background: var(--gradient-glass);
+    box-shadow: var(--shadow-card);
+  }
+
+  .gradient-hero {
+    background: var(--gradient-hero);
+  }
+
+  .gradient-wave {
+    background: var(--gradient-wave);
+  }
+
+  .gradient-button {
+    background: var(--gradient-button);
+  }
+
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+
+  .shadow-hover {
+    box-shadow: var(--shadow-hover);
+  }
+
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-fade-up {
+    animation: fadeUp 0.6s ease-out forwards;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.4s ease-out forwards;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
