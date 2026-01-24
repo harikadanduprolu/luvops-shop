@@ -6,6 +6,7 @@ import ProductCard from "@/components/products/ProductCard";
 import GiftWrappingTips from "@/components/products/GiftWrappingTips";
 import ProductReviews from "@/components/products/ProductsReviews";
 import ShareButtons from "@/components/products/ShareButtons";
+import ProductImageGallery from "@/components/products/ProductImageGallery";
 import { Button } from "@/components/ui/button";
 import { products, categories } from "@/data/products";
 import { useWishlist } from "@/contexts/WishlistContext";
@@ -89,21 +90,8 @@ const Product = () => {
         </Button>
 
         {/* Product Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-16">
-          {/* Image */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <div className="aspect-square rounded-2xl sm:rounded-3xl overflow-hidden bg-muted shadow-card">
-              <img
-                src={product.image}
-                alt={product.name}
-                className="w-full h-full object-cover"
-              />
-            </div>
-          </motion.div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 max-w-6xl mx-auto">
+          <ProductImageGallery mainImage={product.image} productName={product.name} />
 
           {/* Details */}
           <motion.div 
@@ -221,8 +209,8 @@ const Product = () => {
 <ProductReviews productRating={product.rating} reviewCount={product.reviews} />
         {/* Related Products */}
         {relatedProducts.length > 0 && (
-          <section className="mt-12 sm:mt-20">
-            <h2 className="text-xl sm:text-2xl font-serif font-medium text-foreground mb-6 sm:mb-8">
+          <section className="mt-12 sm:mt-20 max-w-6xl mx-auto">
+            <h2 className="text-xl sm:text-2xl font-serif font-medium text-foreground mb-6 sm:mb-8 ">
               You might also love
             </h2>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">

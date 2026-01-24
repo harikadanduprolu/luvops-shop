@@ -64,7 +64,7 @@ const ProductReviews = ({ productRating, reviewCount }: ProductReviewsProps) => 
   ];
 
   return (
-    <section className="mt-12 sm:mt-20">
+    <section className="mt-12 sm:mt-20 max-w-6xl mx-auto">
       <h2 className="text-xl sm:text-2xl font-serif font-medium text-foreground mb-6 sm:mb-8">
         Customer Reviews
       </h2>
