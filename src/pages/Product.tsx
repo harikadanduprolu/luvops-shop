@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Layout from "@/components/layout/Layout";
 import ProductCard from "@/components/products/ProductCard";
 import GiftWrappingTips from "@/components/products/GiftWrappingTips";
+import ProductReviews from "@/components/products/ProductsReviews";
 import ShareButtons from "@/components/products/ShareButtons";
 import { Button } from "@/components/ui/button";
 import { products, categories } from "@/data/products";
@@ -217,6 +218,7 @@ const Product = () => {
           </motion.div>
         </div>
 
+<ProductReviews productRating={product.rating} reviewCount={product.reviews} />
         {/* Related Products */}
         {relatedProducts.length > 0 && (
           <section className="mt-12 sm:mt-20">
