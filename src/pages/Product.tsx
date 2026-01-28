@@ -1,14 +1,14 @@
 import { useParams, useNavigate, Link, useLocation } from "react-router-dom";
 import { Star, ExternalLink, ArrowLeft, Heart } from "lucide-react";
 import { motion } from "framer-motion";
+import { useEffect } from "react";
 import Layout from "@/components/layout/Layout";
 import ProductCard from "@/components/products/ProductCard";
-import GiftWrappingTips from "@/components/products/GiftWrappingTips";
-import ProductReviews from "@/components/products/ProductsReviews";
 import ShareButtons from "@/components/products/ShareButtons";
 import ProductImageGallery from "@/components/products/ProductImageGallery";
 import { Button } from "@/components/ui/button";
 import { products, categories } from "@/data/products";
+import { slugify } from "@/lib/utils";
 import { useWishlist } from "@/contexts/WishlistContext";
 
 const Product = () => {
@@ -17,11 +17,21 @@ const Product = () => {
   const location = useLocation();
   const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
   
+  // Scroll to top when product changes
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [productId]);
+  
   const productUrl = typeof window !== "undefined" 
     ? `${window.location.origin}${location.pathname}` 
     : "";
 
-  const product = products.find((p) => p.id === productId);
+  const product = products.find((p) => {
+    if (p.id === productId) return true;
+    const slugWithId = `${slugify(p.name)}-${p.id}`;
+    const slugOnly = slugify(p.name);
+    return slugWithId === productId || slugOnly === productId;
+  });
   const category = product ? categories.find((c) => c.id === product.category) : null;
   const relatedProducts = product
     ? products.filter((p) => p.category === product.category && p.id !== product.id).slice(0, 4)
@@ -91,7 +101,7 @@ const Product = () => {
 
         {/* Product Content */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 max-w-6xl mx-auto">
-          <ProductImageGallery mainImage={product.image} productName={product.name} />
+          <ProductImageGallery mainImage={product.image} images={product.images} productName={product.name} />
 
           {/* Details */}
           <motion.div 
@@ -115,28 +125,38 @@ const Product = () => {
               {product.name}
             </h1>
 
-            {/* Rating */}
-            <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
-              <div className="flex items-center gap-0.5 sm:gap-1">
-                {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={i}
-                    className={`h-4 w-4 sm:h-5 sm:w-5 ${
-                      i < Math.floor(product.rating)
-                        ? "fill-primary text-primary"
-                        : "text-muted"
-                    }`}
-                  />
-                ))}
+            {/* Rating & Likes */}
+            <div className="flex items-center gap-4 sm:gap-6 flex-wrap">
+              <div className="flex items-center gap-2 sm:gap-3">
+                <div className="flex items-center gap-0.5 sm:gap-1">
+                  {[...Array(5)].map((_, i) => (
+                    <Star
+                      key={i}
+                      className={`h-4 w-4 sm:h-5 sm:w-5 ${
+                        i < Math.floor(product.rating)
+                          ? "fill-primary text-primary"
+                          : "text-muted"
+                      }`}
+                    />
+                  ))}
+                </div>
+                <span className="text-xs sm:text-sm text-muted-foreground">
+                  {product.rating}
+                </span>
               </div>
-              <span className="text-xs sm:text-sm text-muted-foreground">
-                {product.rating} · {product.reviews.toLocaleString()} reviews
-              </span>
+              {product.likes && (
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <Heart className="h-4 w-4 sm:h-5 sm:w-5 fill-primary text-primary" />
+                  <span className="text-xs sm:text-sm text-muted-foreground">
+                    {product.likes.toLocaleString()} people liked this
+                  </span>
+                </div>
+              )}
             </div>
 
             {/* Price */}
             <p className="text-2xl sm:text-3xl font-semibold text-foreground">
-              ${product.price.toFixed(2)}
+              ₹{product.price.toFixed(2)}
             </p>
 
             {/* Description */}
@@ -174,11 +194,15 @@ const Product = () => {
                   variant="outline"
                   size="lg"
                   onClick={handleWishlistClick}
-                  className="px-4 sm:px-6 h-12 sm:h-14"
+                  className={`px-4 sm:px-6 h-12 sm:h-14 transition-all duration-200 ${
+                    inWishlist 
+                      ? "bg-primary/10 border-primary text-primary hover:bg-primary/20" 
+                      : "hover:bg-muted"
+                  }`}
                 >
                   <Heart
-                    className={`h-5 w-5 sm:h-6 sm:w-6 transition-colors ${
-                      inWishlist ? "fill-primary text-primary" : ""
+                    className={`h-5 w-5 sm:h-6 sm:w-6 transition-all duration-200 ${
+                      inWishlist ? "fill-primary text-primary scale-110" : ""
                     }`}
                   />
                 </Button>
@@ -200,13 +224,9 @@ const Product = () => {
                 hand-picked by our team for its quality, thoughtfulness, and the joy it brings to couples.
               </p>
             </div>
-
-            {/* Gift Wrapping Tips */}
-            <GiftWrappingTips />
           </motion.div>
         </div>
 
-<ProductReviews productRating={product.rating} reviewCount={product.reviews} />
         {/* Related Products */}
         {relatedProducts.length > 0 && (
           <section className="mt-12 sm:mt-20 max-w-6xl mx-auto">

@@ -1,16 +1,17 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Search, SlidersHorizontal } from "lucide-react";
+import { motion } from "framer-motion";
 import Layout from "@/components/layout/Layout";
 import ProductCard from "@/components/products/ProductCard";
 import { Button } from "@/components/ui/button";
-import { categories, getProductsByCategory, products } from "@/data/products";
+import { mainCategories, getProductsByCategory, getProductsBySubCategory, products } from "@/data/products";
 
 const priceFilters = [
   { id: "all", label: "All Prices" },
-  { id: "under-50", label: "Under $50" },
-  { id: "50-100", label: "$50 - $100" },
-  { id: "over-100", label: "Over $100" },
+  { id: "under-50", label: "Under ₹2,500" },
+  { id: "50-100", label: "₹2,500 - ₹5,000" },
+  { id: "over-100", label: "Over ₹5,000" },
 ];
 
 const sortOptions = [
@@ -21,15 +22,27 @@ const sortOptions = [
 ];
 
 const Category = () => {
-  const { categoryId } = useParams();
+  const { categoryId, subCategoryId } = useParams();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [priceFilter, setPriceFilter] = useState("all");
   const [sortBy, setSortBy] = useState("popular");
   const [showFilters, setShowFilters] = useState(false);
+  const [activeSubCategory, setActiveSubCategory] = useState(subCategoryId || "all");
 
-  const category = categories.find((c) => c.id === categoryId);
+  // Scroll to top when category changes
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    setActiveSubCategory(subCategoryId || "all");
+  }, [categoryId, subCategoryId]);
+
+  const category = mainCategories.find((c) => c.id === categoryId);
   let categoryProducts = categoryId ? getProductsByCategory(categoryId) : products;
+
+  // Filter by subcategory if selected
+  if (activeSubCategory !== "all" && category) {
+    categoryProducts = getProductsBySubCategory(categoryId, activeSubCategory);
+  }
 
   // Apply search filter
   if (searchQuery) {
@@ -94,6 +107,44 @@ const Category = () => {
           </p>
         </div>
       </section>
+
+      {/* Subcategories */}
+      {category && category.subCategories && category.subCategories.length > 0 && (
+        <section className="bg-muted/30 py-6 border-b border-border/50">
+          <div className="container px-4 sm:px-6">
+            <div className="flex flex-wrap gap-2 justify-center">
+              <motion.button
+                onClick={() => setActiveSubCategory("all")}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                  activeSubCategory === "all"
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-card border border-border hover:border-primary/30 text-foreground"
+                }`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                All
+              </motion.button>
+              {category.subCategories.map((sub) => (
+                <motion.button
+                  key={sub.id}
+                  onClick={() => setActiveSubCategory(sub.id)}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all flex items-center gap-2 ${
+                    activeSubCategory === sub.id
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-card border border-border hover:border-primary/30 text-foreground"
+                  }`}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <span>{sub.icon}</span>
+                  {sub.name}
+                </motion.button>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Filters & Search */}
       <section className="sticky top-16 z-40 bg-background/95 backdrop-blur-xl border-b border-border/50 py-4">

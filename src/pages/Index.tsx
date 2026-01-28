@@ -53,13 +53,13 @@ const Index = () => {
                 placeholder="Search for the perfect gift..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full h-12 sm:h-14 pl-11 sm:pl-14 pr-24 sm:pr-32 rounded-2xl bg-card border border-border/50 text-sm sm:text-base placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition-all shadow-card"
+                className="w-full h-12 sm:h-14 pl-11 sm:pl-14 pr-24 sm:pr-32 rounded-full bg-card border border-border/50 text-sm sm:text-base placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition-all shadow-card"
               />
               <Button
                 type="submit"
                 variant="romantic"
                 size="sm"
-                className="absolute right-1 sm:right-2 top-1/2 -translate-y-1/2 h-10 sm:h-auto px-3 sm:px-4"
+                className="absolute right-1 sm:right-2 top-1/2 -translate-y-1/2 h-10 sm:h-auto px-4 sm:px-6 rounded-full font-semibold hover:shadow-lg hover:scale-105 transition-all duration-200"
               >
                 Search
               </Button>

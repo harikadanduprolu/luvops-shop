@@ -3,56 +3,176 @@ export interface Product {
   name: string;
   description: string;
   price: number;
-  image: string;
-  category: string;
+  image?: string;
+  images?: string[];
   rating: number;
   reviews: number;
+  likes?: number;
   affiliateUrl: string;
   tags: string[];
   isValentinePick?: boolean;
   mood?: string;
   occasion?: string[];
   relationshipStage?: string[];
+  // New category structure
+  mainCategory?: string;
+  subCategory?: string;
+  // Legacy category field (for backward compatibility)
+  category?: string;
+  // Pricing fields
+  originalPrice?: number;
+  discount?: string;
+  currency?: string;
 }
 
-export const categories = [
+export interface MainCategory {
+  id: string;
+  name: string;
+  description: string;
+  image: string;
+  subCategories: SubCategory[];
+}
+
+export interface SubCategory {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+}
+
+export const mainCategories: MainCategory[] = [
   {
-    id: "for-her",
-    name: "For Her",
-    description: "Thoughtful gifts she'll treasure",
-    image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400&h=400&fit=crop",
+    id: "gifts-for-him",
+    name: "Gifts for Him",
+    description: "Thoughtful gifts for the men in your life",
+    image: "https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?w=600&h=600&fit=crop",
+    subCategories: [
+      { id: "him-accessories", name: "Accessories", description: "Stylish watches, wallets, and more", icon: "👔" },
+      { id: "him-grooming", name: "Grooming", description: "Premium grooming products", icon: "💈" },
+      { id: "him-gadgets-desk", name: "Gadgets & Desk", description: "Tech and workspace essentials", icon: "⌨️" },
+      { id: "him-fashion", name: "Fashion", description: "Clothing and apparel", icon: "👕" },
+    ],
   },
   {
-    id: "for-him",
-    name: "For Him",
-    description: "Gifts he'll actually use",
-    image: "https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?w=400&h=400&fit=crop",
+    id: "gifts-for-her",
+    name: "Gifts for Her",
+    description: "Elegant gifts for the special women in your life",
+    image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600&h=600&fit=crop",
+    subCategories: [
+      { id: "her-accessories", name: "Accessories", description: "Jewelry, scarves, and more", icon: "💎" },
+      { id: "her-beauty", name: "Beauty & Self-Care", description: "Skincare and wellness", icon: "💄" },
+      { id: "her-keepsakes", name: "Keepsakes", description: "Memorable treasures", icon: "📦" },
+      { id: "her-soft-toys", name: "Soft Toys", description: "Cuddly companions", icon: "🧸" },
+    ],
   },
   {
-    id: "for-couples",
-    name: "For Couples",
-    description: "Share the moment together",
-    image: "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=400&h=400&fit=crop",
+    id: "couples-matching",
+    name: "Couple & Matching",
+    description: "Share the moment together with matching gifts",
+    image: "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=600&h=600&fit=crop",
+    subCategories: [
+      { id: "matching-apparel", name: "Matching Apparel", description: "Coordinated clothing", icon: "👕" },
+      { id: "matching-accessories", name: "Matching Accessories", description: "His & hers collections", icon: "💍" },
+      { id: "bedroom-decor", name: "Bedroom & Decor", description: "Home comfort items", icon: "🛏️" },
+      { id: "experiences", name: "Experiences", description: "Create memories together", icon: "✈️" },
+    ],
   },
   {
-    id: "memory-gifts",
-    name: "Memory Gifts",
-    description: "Preserve your precious moments",
-    image: "https://images.unsplash.com/photo-1531256379416-9f000e90aacc?w=400&h=400&fit=crop",
+    id: "jewelry",
+    name: "Jewelry",
+    description: "Timeless pieces for every moment",
+    image: "https://images.unsplash.com/photo-1515562141207-6461a4b0b5f4?w=600&h=600&fit=crop",
+    subCategories: [
+      { id: "jewelry-personalized", name: "Personalized", description: "Custom engraved pieces", icon: "✨" },
+      { id: "jewelry-couple-sets", name: "Couple Sets", description: "Matching pair collections", icon: "💑" },
+      { id: "jewelry-fashion", name: "Fashion Jewelry", description: "Trendy accessories", icon: "💎" },
+      { id: "jewelry-premium", name: "Premium / Precious", description: "Gold, silver, and gemstones", icon: "👑" },
+    ],
   },
   {
-    id: "romantic-nights",
-    name: "Romantic Nights",
-    description: "Set the mood for love",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
+    id: "games-fun",
+    name: "Games & Fun",
+    description: "Playful gifts for laughter and bonding",
+    image: "https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?w=600&h=600&fit=crop",
+    subCategories: [
+      { id: "games-party", name: "Party & Group", description: "Games for gatherings", icon: "🎉" },
+      { id: "games-intimate", name: "Intimate & Spicy", description: "Adult fun games", icon: "🔥" },
+      { id: "games-conversation", name: "Conversation Starters", description: "Getting to know you games", icon: "💬" },
+      { id: "games-pranks", name: "Pranks & Gags", description: "Funny surprises", icon: "😂" },
+    ],
   },
   {
-    id: "surprise-gifts",
-    name: "Surprise Gifts",
-    description: "Unexpected delights",
-    image: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=400&h=400&fit=crop",
+    id: "sentimental-letters",
+    name: "Sentimental & Letters",
+    description: "Heartfelt gifts from the heart",
+    image: "https://images.unsplash.com/photo-1531256379416-9f000e90aacc?w=600&h=600&fit=crop",
+    subCategories: [
+      { id: "sentimental-diy", name: "DIY Kits", description: "Create together kits", icon: "🎨" },
+      { id: "sentimental-letters", name: "Written Words", description: "Love letters and journals", icon: "📝" },
+      { id: "sentimental-memories", name: "Printed Memories", description: "Photo gifts and albums", icon: "📸" },
+      { id: "sentimental-cards", name: "Greeting Cards", description: "Special occasion cards", icon: "💌" },
+    ],
+  },
+  {
+    id: "flowers-chocolates",
+    name: "Flowers & Chocolates",
+    description: "Classic romantic gifts",
+    image: "https://images.unsplash.com/photo-1518972911457-f6b7851e4872?w=600&h=600&fit=crop",
+    subCategories: [
+      { id: "flowers-fresh", name: "Fresh Blooms", description: "Fresh cut flowers", icon: "🌹" },
+      { id: "flowers-forever", name: "Forever Flowers", description: "Preserved flowers", icon: "🌺" },
+      { id: "chocolates-regular", name: "Chocolates", description: "Gourmet chocolate boxes", icon: "🍫" },
+      { id: "chocolates-edible", name: "Edible Fun", description: "Playful treats and nibbles", icon: "🍬" },
+    ],
+  },
+  {
+    id: "combos-hampers",
+    name: "Combos & Hampers",
+    description: "Complete gift sets for every occasion",
+    image: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=600&h=600&fit=crop",
+    subCategories: [
+      { id: "combos-curated", name: "Curated Boxes", description: "Thoughtfully assembled sets", icon: "📦" },
+      { id: "combos-luxury", name: "Luxury Hampers", description: "Premium gift collections", icon: "👑" },
+      { id: "combos-budget", name: "Budget Combos", description: "Affordable multi-item sets", icon: "💰" },
+    ],
+  },
+  {
+    id: "health-lifestyle",
+    name: "Health & Lifestyle",
+    description: "Wellness gifts for self-care",
+    image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&h=600&fit=crop",
+    subCategories: [
+      { id: "health-fitness", name: "Fitness Gear", description: "Exercise and workout items", icon: "🏋️" },
+      { id: "health-wellness", name: "Wellness", description: "Yoga, meditation, and relaxation", icon: "🧘" },
+      { id: "health-eco", name: "Eco-Friendly", description: "Sustainable and green products", icon: "🌱" },
+    ],
+  },
+  {
+    id: "tech-gadgets",
+    name: "Tech & Gadgets",
+    description: "Modern tech gifts",
+    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&h=600&fit=crop",
+    subCategories: [
+      { id: "tech-music", name: "Music & Audio", description: "Speakers, headphones, and more", icon: "🎵" },
+      { id: "tech-charging", name: "Utility & Charging", description: "Chargers and power banks", icon: "🔌" },
+      { id: "tech-smart", name: "Smart Accessories", description: "Smart home devices", icon: "📱" },
+    ],
+  },
+  {
+    id: "home-living",
+    name: "Home & Living",
+    description: "Create a cozy space together",
+    image: "https://images.unsplash.com/photo-1567538096051-b6643a25f319?w=600&h=600&fit=crop",
+    subCategories: [
+      { id: "home-kitchen", name: "Kitchen & Dining", description: "Cookware and dining essentials", icon: "🍽️" },
+      { id: "home-comfort", name: "Comfort & Bedding", description: "Luxurious linens and pillows", icon: "🛏️" },
+      { id: "home-wall-art", name: "Wall Art & Decor", description: "Art prints and decorations", icon: "🖼️" },
+    ],
   },
 ];
+
+// Flatten categories for compatibility
+export const categories = mainCategories;
 
 export const moods = [
   { id: "romantic", name: "Romantic", emoji: "💕" },
@@ -80,508 +200,147 @@ export const relationshipStages = [
 ];
 
 export const products: Product[] = [
-  // Memory Gifts
   {
     id: "1",
-    name: "Personalized Star Map",
-    description: "Capture the night sky from your special moment - first date, proposal, or anniversary. A beautiful reminder of when your stars aligned.",
-    price: 49.99,
-    image: "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=600&h=600&fit=crop",
-    category: "memory-gifts",
-    rating: 4.9,
-    reviews: 2341,
-    affiliateUrl: "https://www.amazon.com/dp/B08XYZ1234",
-    tags: ["personalized", "romantic", "wall art"],
+    name: "TreasureBox Wooden Personalized Photo Jigsaw Puzzle (A4)",
+    description: "Turn your favorite memory into a fun activity. This 120-piece personalized jigsaw puzzle is made of high-quality engineered wood (MDF) and can be customized with any photo—perfect for couples, families, or a unique proposal.",
+    price: 379,
+    originalPrice: 699,
+    discount: "46%",
+    currency: "INR",
+    images: [
+      "https://m.media-amazon.com/images/I/71RQjFIr1cL._SX500_.jpg",
+      "https://m.media-amazon.com/images/I/611a+7XsxRL._SX500_.jpg",
+      "https://m.media-amazon.com/images/I/61jK6LUDVtL._SX500_.jpg",
+      "https://m.media-amazon.com/images/I/51Mb97J+BAL.jpg"
+    ],
+    image: "https://m.media-amazon.com/images/I/71RQjFIr1cL._SX500_.jpg",
+    mainCategory: "sentimental-letters",
+    subCategory: "printed-memories",
+    category: "sentimental-letters",
+    rating: 4.4,
+    reviews: 0,
+    likes: 0,
+    affiliateUrl: "https://amzn.to/4q3yPDo",
+    tags: ["personalized", "puzzle", "wood", "interactive", "photo-gift"],
     isValentinePick: true,
-    mood: "romantic",
-    occasion: ["anniversary", "valentines", "birthday"],
-    relationshipStage: ["serious", "engaged", "married"],
-  },
-  {
-    id: "2",
-    name: "Couple's Massage Set",
-    description: "Premium aromatherapy oils and tools for the perfect at-home spa night. Everything you need for relaxation together.",
-    price: 89.99,
-    image: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=600&h=600&fit=crop",
-    category: "romantic-nights",
-    rating: 4.8,
-    reviews: 1567,
-    affiliateUrl: "https://www.amazon.com/dp/B08ABC5678",
-    tags: ["spa", "relaxation", "self-care"],
-    isValentinePick: true,
-    mood: "cozy",
-    occasion: ["anniversary", "valentines", "just-because"],
-    relationshipStage: ["dating", "serious", "engaged", "married"],
+    mood: "playful",
+    occasion: ["anniversary", "birthday", "valentines", "house-warming"],
+    relationshipStage: ["new", "serious", "married", "friends"],
   },
   {
     id: "3",
-    name: "Love Letter Blanket",
-    description: "Cozy fleece blanket with your personal love letter woven into the design. Wrap yourselves in your own words.",
-    price: 79.99,
-    image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=600&fit=crop",
-    category: "for-couples",
-    rating: 4.7,
-    reviews: 892,
-    affiliateUrl: "https://www.amazon.com/dp/B09DEF9012",
-    tags: ["personalized", "cozy", "home"],
-    mood: "cozy",
-    occasion: ["anniversary", "valentines", "birthday"],
-    relationshipStage: ["serious", "engaged", "married"],
+    name: "Taboo Board Game - Hasbro Gaming",
+    description: "It's the game of unspeakable fun! Race against the timer to get your team to say the Guess word without saying any of the forbidden Taboo words. This classic party game now features trendy pop culture topics and includes 212 cards with 848 guess words. Perfect for 4+ players.",
+    price: 1354,
+    originalPrice: 1999,
+    discount: "32%",
+    currency: "INR",
+    images: [
+      "https://m.media-amazon.com/images/I/51vRAvDi7qL._SX500_.jpg",
+      "https://m.media-amazon.com/images/I/51IVWR-TW-L._SX500_.jpg",
+      "https://m.media-amazon.com/images/I/41gZwRZJo6L._SX500_.jpg",
+      "https://m.media-amazon.com/images/I/61MzwMJiHdL._SX500_.jpg"
+    ],
+    image: "https://m.media-amazon.com/images/I/51IVWR-TW-L._SX500_.jpg",
+    mainCategory: "games-fun",
+    subCategory: "games-party",
+    category: "games-fun",
+    rating: 4.6,
+    reviews: 0,
+    likes: 0,
+    affiliateUrl: "https://amzn.to/4k4cpAF",
+    tags: ["party-game", "word-game", "group-activity", "fun", "classic"],
+    isValentinePick: false,
+    mood: "playful",
+    occasion: ["game-night", "party", "birthday", "get-together"],
+    relationshipStage: ["friends", "dating", "married", "family"],
   },
   {
     id: "4",
-    name: "Adventure Date Jar",
-    description: "50 unique date ideas on elegant cards. Shake, pick, and create new memories together every week.",
-    price: 34.99,
-    image: "https://images.unsplash.com/photo-1513201099705-a9746e1e201f?w=600&h=600&fit=crop",
-    category: "for-couples",
-    rating: 4.6,
-    reviews: 2103,
-    affiliateUrl: "https://www.amazon.com/dp/B08GHI3456",
-    tags: ["dates", "experiences", "fun"],
-    isValentinePick: true,
-    mood: "adventurous",
-    occasion: ["valentines", "just-because", "anniversary"],
-    relationshipStage: ["new", "dating", "serious"],
+    name: "MAGMATE Original Magnetic Board Game (Classic)",
+    description: "A fun and portable strategy game for all ages. This set includes 24 uniquely shaped magnets, a rope, and a travel pouch. It challenges players to place their magnets without letting them attract together—perfect for building focus and problem-solving skills during travel or family game nights.",
+    price: 425,
+    originalPrice: 1499,
+    discount: "72%",
+    currency: "INR",
+    images: [
+      "https://m.media-amazon.com/images/I/81LPcvcxZkL._SX500_.jpg",
+      "https://m.media-amazon.com/images/I/81PoPe1pFrL._SX500_.jpg",
+      "https://m.media-amazon.com/images/I/813knjph1RL._SX500_.jpg",
+      "https://m.media-amazon.com/images/I/81O++EZVLsL._SX500_.jpg"
+    ],
+    image: "https://m.media-amazon.com/images/I/81LPcvcxZkL._SX500_.jpg",
+    mainCategory: "games-fun",
+    subCategory: "games-party",
+    category: "games-fun",
+    rating: 4.5,
+    reviews: 0,
+    likes: 0,
+    affiliateUrl: "https://amzn.to/3Z3SYOS",
+    tags: ["magnetic", "strategy", "travel-friendly", "family-game", "puzzle"],
+    isValentinePick: false,
+    mood: "playful",
+    occasion: ["game-night", "travel", "birthday", "family-gathering"],
+    relationshipStage: ["friends", "family", "married"],
   },
   {
     id: "5",
-    name: "Silk Robe Set",
-    description: "Matching his and hers luxury silk robes. Because mornings are better when you match.",
-    price: 159.99,
-    image: "https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=600&h=600&fit=crop",
-    category: "for-couples",
-    rating: 4.9,
-    reviews: 743,
-    affiliateUrl: "https://www.amazon.com/dp/B08JKL7890",
-    tags: ["luxury", "matching", "loungewear"],
-    isValentinePick: true,
-    mood: "romantic",
-    occasion: ["anniversary", "valentines"],
-    relationshipStage: ["engaged", "married"],
+    name: "ROSTON Triggle Game: Triangle Building Board Game",
+    description: "A fun strategy board game where players use elastic ropes to build triangles. Perfect for family gatherings and parties, it helps exercise observation and spatial skills. The first player to use up all their chess pieces by claiming triangles wins.",
+    price: 349,
+    originalPrice: 999,
+    discount: "65%",
+    currency: "INR",
+    images: [
+      "https://m.media-amazon.com/images/I/61WRNciEugL._SX569_.jpg",
+      "https://m.media-amazon.com/images/I/91R41EmdHaL._SX569_.jpg",
+      "https://m.media-amazon.com/images/S/aplus-media-library-service-media/e3283d70-e647-41b2-821d-af9b3d209e7c.__CR0,0,970,600_PT0_SX970_V1___.jpg",
+      "https://m.media-amazon.com/images/I/81UVXpo7wzL._SL1500_.jpg"
+    ],
+    image: "https://m.media-amazon.com/images/I/61WRNciEugL._SX569_.jpg",
+    mainCategory: "games-fun",
+    subCategory: "games-party",
+    category: "games-fun",
+    rating: 4.6,
+    reviews: 0,
+    likes: 0,
+    affiliateUrl: "https://amzn.to/3ZBzukJ",
+    tags: ["strategy", "board-game", "family", "kids", "educational"],
+    isValentinePick: false,
+    mood: "playful",
+    occasion: ["game-night", "family-gathering", "kids-party"],
+    relationshipStage: ["family", "friends", "married"],
   },
   {
     id: "6",
-    name: "Vintage Love Journal",
-    description: "A beautifully bound journal for writing love notes, memories, and dreams together.",
-    price: 28.99,
-    image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=600&fit=crop",
-    category: "memory-gifts",
-    rating: 4.8,
-    reviews: 1234,
-    affiliateUrl: "https://www.amazon.com/dp/B08MNO1234",
-    tags: ["journal", "memories", "writing"],
-    mood: "sentimental",
-    occasion: ["anniversary", "valentines", "just-because"],
-    relationshipStage: ["dating", "serious", "engaged", "married"],
-  },
-  {
-    id: "7",
-    name: "Rose Gold Jewelry Set",
-    description: "Delicate matching necklace and bracelet set. Subtle elegance for everyday wear.",
-    price: 129.99,
-    image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=600&h=600&fit=crop",
-    category: "for-her",
-    rating: 4.9,
-    reviews: 1876,
-    affiliateUrl: "https://www.amazon.com/dp/B08PQR5678",
-    tags: ["jewelry", "elegant", "gift set"],
-    isValentinePick: true,
-    mood: "romantic",
-    occasion: ["anniversary", "valentines", "birthday"],
-    relationshipStage: ["serious", "engaged", "married"],
-  },
-  {
-    id: "8",
-    name: "Premium Watch Box",
-    description: "Handcrafted wooden watch case with velvet interior. A gift that shows you pay attention.",
-    price: 89.99,
-    image: "https://images.unsplash.com/photo-1587836374828-a58e58c91c81?w=600&h=600&fit=crop",
-    category: "for-him",
-    rating: 4.7,
-    reviews: 654,
-    affiliateUrl: "https://www.amazon.com/dp/B08STU9012",
-    tags: ["accessories", "organization", "luxury"],
-    mood: "sentimental",
-    occasion: ["birthday", "anniversary", "just-because"],
-    relationshipStage: ["dating", "serious", "engaged", "married"],
-  },
-  {
-    id: "9",
-    name: "Scented Candle Collection",
-    description: "Set of 6 hand-poured soy candles in romantic scents. Rose, vanilla, jasmine, and more.",
-    price: 54.99,
-    image: "https://images.unsplash.com/photo-1602607753066-6e1b0e56536e?w=600&h=600&fit=crop",
-    category: "romantic-nights",
-    rating: 4.8,
-    reviews: 2987,
-    affiliateUrl: "https://www.amazon.com/dp/B08VWX3456",
-    tags: ["candles", "ambiance", "scented"],
-    isValentinePick: true,
-    mood: "romantic",
-    occasion: ["valentines", "anniversary", "just-because"],
-    relationshipStage: ["new", "dating", "serious", "engaged", "married"],
-  },
-  {
-    id: "10",
-    name: "Couple's Game Night Set",
-    description: "Curated collection of games designed for two. From deep conversations to playful challenges.",
-    price: 45.99,
-    image: "https://images.unsplash.com/photo-1606503153255-59d8b8b82176?w=600&h=600&fit=crop",
-    category: "for-couples",
-    rating: 4.6,
-    reviews: 1432,
-    affiliateUrl: "https://www.amazon.com/dp/B08YZA7890",
-    tags: ["games", "fun", "quality time"],
+    name: "Clapjoy Slingo Fastest Finger First Board Game",
+    description: "A fast-paced, 2-player wooden string hockey game. Use the elastic rope to launch pucks through the gate until your side is empty. Portable and battery-free, it improves hand-eye coordination and is perfect for parties, family bonding, and screen-free fun.",
+    price: 601,
+    originalPrice: 849,
+    discount: "29%",
+    currency: "INR",
+    images: [
+      "https://m.media-amazon.com/images/I/41eOi-mhF1L._SX500_.jpg",
+      "https://m.media-amazon.com/images/I/51oZVSqQSNL._SX500_.jpg",
+      "https://m.media-amazon.com/images/I/51-lmw2xf-L._SX500_.jpg",
+      "https://m.media-amazon.com/images/S/aplus-media-library-service-media/4e2c8158-2589-4694-bf8b-f77dd26ab16f.__CR0,1,1207,747_PT0_SX970_V1___.jpg"
+    ],
+    image: "https://m.media-amazon.com/images/I/41eOi-mhF1L._SX500_.jpg",
+    mainCategory: "games-fun",
+    subCategory: "games-party",
+    category: "games-fun",
+    rating: 4.2,
+    reviews: 0,
+    likes: 0,
+    affiliateUrl: "https://amzn.to/3LXzIzm",
+    tags: ["wooden", "sling-puck", "fast-paced", "family-game", "coordination", "table-hockey"],
+    isValentinePick: false,
     mood: "playful",
-    occasion: ["valentines", "just-because", "anniversary"],
-    relationshipStage: ["new", "dating", "serious"],
-  },
-  {
-    id: "11",
-    name: "Mystery Gift Box",
-    description: "A curated surprise box delivered to your door. Different theme each month.",
-    price: 69.99,
-    image: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=600&h=600&fit=crop",
-    category: "surprise-gifts",
-    rating: 4.5,
-    reviews: 876,
-    affiliateUrl: "https://www.amazon.com/dp/B09BCD1234",
-    tags: ["surprise", "subscription", "curated"],
-    mood: "playful",
-    occasion: ["birthday", "just-because"],
-    relationshipStage: ["dating", "serious"],
-  },
-  {
-    id: "12",
-    name: "Leather Photo Album",
-    description: "Hand-stitched leather album with space for 200 photos. A timeless keepsake.",
-    price: 74.99,
-    image: "https://images.unsplash.com/photo-1531256379416-9f000e90aacc?w=600&h=600&fit=crop",
-    category: "memory-gifts",
-    rating: 4.9,
-    reviews: 1654,
-    affiliateUrl: "https://www.amazon.com/dp/B09EFG5678",
-    tags: ["photos", "memories", "leather"],
-    isValentinePick: true,
-    mood: "sentimental",
-    occasion: ["anniversary", "valentines"],
-    relationshipStage: ["serious", "engaged", "married"],
-  },
-  // NEW PRODUCTS - For Her
-  {
-    id: "13",
-    name: "Preserved Rose Box",
-    description: "Real roses that last a year, elegantly displayed in a luxurious velvet box.",
-    price: 89.99,
-    image: "https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?w=600&h=600&fit=crop",
-    category: "for-her",
-    rating: 4.8,
-    reviews: 2134,
-    affiliateUrl: "https://www.amazon.com/dp/B09HIJ9012",
-    tags: ["roses", "luxury", "romantic"],
-    isValentinePick: true,
-    mood: "romantic",
-    occasion: ["valentines", "anniversary", "apology"],
-    relationshipStage: ["dating", "serious", "engaged", "married"],
-  },
-  {
-    id: "14",
-    name: "Silk Pajama Set",
-    description: "Luxuriously soft mulberry silk pajamas in blush pink. The ultimate self-care gift.",
-    price: 149.99,
-    image: "https://images.unsplash.com/photo-1564568979181-0c05d43d8e12?w=600&h=600&fit=crop",
-    category: "for-her",
-    rating: 4.9,
-    reviews: 987,
-    affiliateUrl: "https://www.amazon.com/dp/B09KLM3456",
-    tags: ["sleepwear", "luxury", "silk"],
-    mood: "cozy",
-    occasion: ["birthday", "valentines", "just-because"],
-    relationshipStage: ["serious", "engaged", "married"],
-  },
-  {
-    id: "15",
-    name: "Personalized Birth Flower Necklace",
-    description: "Dainty gold necklace featuring her birth month flower. Thoughtful and unique.",
-    price: 68.99,
-    image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=600&h=600&fit=crop",
-    category: "for-her",
-    rating: 4.7,
-    reviews: 1543,
-    affiliateUrl: "https://www.amazon.com/dp/B09NOP7890",
-    tags: ["necklace", "personalized", "gold"],
-    mood: "sentimental",
-    occasion: ["birthday", "anniversary", "just-because"],
-    relationshipStage: ["new", "dating", "serious"],
-  },
-  {
-    id: "16",
-    name: "Luxury Perfume Set",
-    description: "Collection of 5 mini designer perfumes in romantic florals and warm vanillas.",
-    price: 119.99,
-    image: "https://images.unsplash.com/photo-1541643600914-78b084683601?w=600&h=600&fit=crop",
-    category: "for-her",
-    rating: 4.8,
-    reviews: 2876,
-    affiliateUrl: "https://www.amazon.com/dp/B09QRS1234",
-    tags: ["perfume", "luxury", "fragrance"],
-    mood: "romantic",
-    occasion: ["birthday", "valentines", "anniversary"],
-    relationshipStage: ["dating", "serious", "engaged", "married"],
-  },
-  // NEW PRODUCTS - For Him
-  {
-    id: "17",
-    name: "Leather Wallet & Card Holder",
-    description: "Handcrafted Italian leather wallet with RFID protection. Personalize with initials.",
-    price: 79.99,
-    image: "https://images.unsplash.com/photo-1627123424574-724758594e93?w=600&h=600&fit=crop",
-    category: "for-him",
-    rating: 4.8,
-    reviews: 1876,
-    affiliateUrl: "https://www.amazon.com/dp/B09TUV5678",
-    tags: ["leather", "wallet", "personalized"],
-    mood: "sentimental",
-    occasion: ["birthday", "anniversary", "just-because"],
-    relationshipStage: ["dating", "serious", "engaged", "married"],
-  },
-  {
-    id: "18",
-    name: "Whiskey Decanter Set",
-    description: "Crystal decanter with 4 glasses and wooden presentation box. Sophisticated and timeless.",
-    price: 129.99,
-    image: "https://images.unsplash.com/photo-1569529465841-dfecdab7503b?w=600&h=600&fit=crop",
-    category: "for-him",
-    rating: 4.9,
-    reviews: 1234,
-    affiliateUrl: "https://www.amazon.com/dp/B09WXY9012",
-    tags: ["barware", "luxury", "crystal"],
-    mood: "sentimental",
-    occasion: ["birthday", "anniversary"],
-    relationshipStage: ["serious", "engaged", "married"],
-  },
-  {
-    id: "19",
-    name: "Cologne Discovery Set",
-    description: "8 premium cologne samples to find his signature scent. Perfect for the undecided.",
-    price: 59.99,
-    image: "https://images.unsplash.com/photo-1594035910387-fea47794261f?w=600&h=600&fit=crop",
-    category: "for-him",
-    rating: 4.6,
-    reviews: 987,
-    affiliateUrl: "https://www.amazon.com/dp/B09ZAB3456",
-    tags: ["cologne", "fragrance", "discovery"],
-    mood: "playful",
-    occasion: ["birthday", "valentines", "just-because"],
-    relationshipStage: ["new", "dating"],
-  },
-  {
-    id: "20",
-    name: "Premium Shaving Kit",
-    description: "Complete grooming set with safety razor, brush, and artisan shaving soap.",
-    price: 94.99,
-    image: "https://images.unsplash.com/photo-1621607512214-68297480165e?w=600&h=600&fit=crop",
-    category: "for-him",
-    rating: 4.7,
-    reviews: 765,
-    affiliateUrl: "https://www.amazon.com/dp/B0ACDE7890",
-    tags: ["grooming", "shaving", "self-care"],
-    mood: "cozy",
-    occasion: ["birthday", "just-because"],
-    relationshipStage: ["dating", "serious", "engaged", "married"],
-  },
-  // NEW PRODUCTS - For Couples
-  {
-    id: "21",
-    name: "Couple's Cooking Class Box",
-    description: "Everything for a romantic Italian dinner at home. Recipe cards, ingredients list, and wine pairing guide.",
-    price: 64.99,
-    image: "https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=600&h=600&fit=crop",
-    category: "for-couples",
-    rating: 4.8,
-    reviews: 1432,
-    affiliateUrl: "https://www.amazon.com/dp/B0AFGH1234",
-    tags: ["cooking", "date night", "experience"],
-    mood: "adventurous",
-    occasion: ["valentines", "anniversary", "just-because"],
-    relationshipStage: ["dating", "serious", "engaged", "married"],
-  },
-  {
-    id: "22",
-    name: "Long Distance Touch Bracelets",
-    description: "Connected bracelets that let you send touches across any distance. Light up when your partner is thinking of you.",
-    price: 119.99,
-    image: "https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=600&h=600&fit=crop",
-    category: "for-couples",
-    rating: 4.5,
-    reviews: 3456,
-    affiliateUrl: "https://www.amazon.com/dp/B0AIJK5678",
-    tags: ["technology", "long distance", "connection"],
-    isValentinePick: true,
-    mood: "sentimental",
-    occasion: ["long-distance", "anniversary", "just-because"],
-    relationshipStage: ["dating", "serious", "engaged"],
-  },
-  {
-    id: "23",
-    name: "Couples Bucket List Scratch Poster",
-    description: "100 romantic activities to do together. Scratch off as you complete each adventure.",
-    price: 29.99,
-    image: "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=600&h=600&fit=crop",
-    category: "for-couples",
-    rating: 4.7,
-    reviews: 2345,
-    affiliateUrl: "https://www.amazon.com/dp/B0ALMN9012",
-    tags: ["experiences", "adventure", "poster"],
-    mood: "adventurous",
-    occasion: ["valentines", "anniversary", "just-because"],
-    relationshipStage: ["new", "dating", "serious"],
-  },
-  // NEW PRODUCTS - Romantic Nights
-  {
-    id: "24",
-    name: "Starlight Projector",
-    description: "Transform any room into a starry night sky. Bluetooth speaker included for romantic playlists.",
-    price: 49.99,
-    image: "https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=600&h=600&fit=crop",
-    category: "romantic-nights",
-    rating: 4.6,
-    reviews: 4567,
-    affiliateUrl: "https://www.amazon.com/dp/B0AOPQ3456",
-    tags: ["ambiance", "technology", "romantic"],
-    mood: "romantic",
-    occasion: ["valentines", "anniversary", "just-because"],
-    relationshipStage: ["new", "dating", "serious", "engaged", "married"],
-  },
-  {
-    id: "25",
-    name: "Champagne Toast Set",
-    description: "Two crystal champagne flutes with a bottle of premium sparkling wine.",
-    price: 89.99,
-    image: "https://images.unsplash.com/photo-1578911373434-0cb395d2cbfb?w=600&h=600&fit=crop",
-    category: "romantic-nights",
-    rating: 4.8,
-    reviews: 876,
-    affiliateUrl: "https://www.amazon.com/dp/B0ARST7890",
-    tags: ["celebration", "wine", "toast"],
-    mood: "romantic",
-    occasion: ["anniversary", "engaged", "valentines"],
-    relationshipStage: ["serious", "engaged", "married"],
-  },
-  {
-    id: "26",
-    name: "Couples Question Cards",
-    description: "200 deep conversation starters to rediscover each other. From playful to profound.",
-    price: 24.99,
-    image: "https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?w=600&h=600&fit=crop",
-    category: "romantic-nights",
-    rating: 4.7,
-    reviews: 2134,
-    affiliateUrl: "https://www.amazon.com/dp/B0AUVW1234",
-    tags: ["conversation", "connection", "cards"],
-    mood: "sentimental",
-    occasion: ["valentines", "anniversary", "just-because"],
-    relationshipStage: ["new", "dating", "serious"],
-  },
-  // NEW PRODUCTS - Surprise Gifts
-  {
-    id: "27",
-    name: "Flower Subscription Box",
-    description: "Fresh seasonal flowers delivered monthly. Each arrangement tells a story.",
-    price: 44.99,
-    image: "https://images.unsplash.com/photo-1487530811176-3780de880c2d?w=600&h=600&fit=crop",
-    category: "surprise-gifts",
-    rating: 4.8,
-    reviews: 1876,
-    affiliateUrl: "https://www.amazon.com/dp/B0AXYZ5678",
-    tags: ["flowers", "subscription", "fresh"],
-    mood: "romantic",
-    occasion: ["just-because", "apology"],
-    relationshipStage: ["dating", "serious", "engaged", "married"],
-  },
-  {
-    id: "28",
-    name: "Love Coupon Book",
-    description: "30 customizable coupons for dates, favors, and romantic gestures. Fill in your own promises.",
-    price: 18.99,
-    image: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=600&h=600&fit=crop",
-    category: "surprise-gifts",
-    rating: 4.5,
-    reviews: 3456,
-    affiliateUrl: "https://www.amazon.com/dp/B0BABC9012",
-    tags: ["coupons", "personalized", "fun"],
-    mood: "playful",
-    occasion: ["valentines", "birthday", "just-because"],
-    relationshipStage: ["new", "dating", "serious"],
-  },
-  {
-    id: "29",
-    name: "Breakfast in Bed Kit",
-    description: "Everything for the perfect morning surprise: heart waffle maker, tray, and gourmet pancake mix.",
-    price: 59.99,
-    image: "https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?w=600&h=600&fit=crop",
-    category: "surprise-gifts",
-    rating: 4.7,
-    reviews: 987,
-    affiliateUrl: "https://www.amazon.com/dp/B0BDEF3456",
-    tags: ["breakfast", "morning", "surprise"],
-    mood: "cozy",
-    occasion: ["birthday", "valentines", "anniversary"],
-    relationshipStage: ["dating", "serious", "engaged", "married"],
-  },
-  // NEW PRODUCTS - Memory Gifts
-  {
-    id: "30",
-    name: "Custom Spotify Plaque",
-    description: "Acrylic display of your song with scannable Spotify code. Press play on your memories.",
-    price: 39.99,
-    image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=600&h=600&fit=crop",
-    category: "memory-gifts",
-    rating: 4.8,
-    reviews: 4321,
-    affiliateUrl: "https://www.amazon.com/dp/B0BGHI7890",
-    tags: ["music", "personalized", "display"],
-    isValentinePick: true,
-    mood: "sentimental",
-    occasion: ["anniversary", "valentines", "birthday"],
-    relationshipStage: ["dating", "serious", "engaged", "married"],
-  },
-  {
-    id: "31",
-    name: "Couple's Fingerprint Ring",
-    description: "Matching rings engraved with each other's fingerprints. Uniquely yours, forever.",
-    price: 199.99,
-    image: "https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=600&h=600&fit=crop",
-    category: "memory-gifts",
-    rating: 4.9,
-    reviews: 654,
-    affiliateUrl: "https://www.amazon.com/dp/B0BJKL1234",
-    tags: ["rings", "personalized", "jewelry"],
-    mood: "romantic",
-    occasion: ["anniversary", "engaged"],
-    relationshipStage: ["engaged", "married"],
-  },
-  {
-    id: "32",
-    name: "Relationship Timeline Print",
-    description: "Custom illustrated timeline of your love story with key dates and milestones.",
-    price: 69.99,
-    image: "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=600&h=600&fit=crop",
-    category: "memory-gifts",
-    rating: 4.7,
-    reviews: 1234,
-    affiliateUrl: "https://www.amazon.com/dp/B0BMNO5678",
-    tags: ["art", "personalized", "timeline"],
-    mood: "sentimental",
-    occasion: ["anniversary", "valentines"],
-    relationshipStage: ["serious", "engaged", "married"],
+    occasion: ["game-night", "birthday", "christmas", "family-gathering"],
+    relationshipStage: ["friends", "family", "dating", "married"],
   },
 ];
-
-export const getProductsByCategory = (categoryId: string) => {
-  return products.filter((product) => product.category === categoryId);
-};
 
 export const getValentinePicks = () => {
   return products.filter((product) => product.isValentinePick);
@@ -598,7 +357,41 @@ export const searchProducts = (query: string) => {
       product.name.toLowerCase().includes(lowerQuery) ||
       product.description.toLowerCase().includes(lowerQuery) ||
       product.tags.some((tag) => tag.toLowerCase().includes(lowerQuery)) ||
-      product.category.toLowerCase().includes(lowerQuery)
+      (product.mainCategory?.toLowerCase().includes(lowerQuery) ?? false) ||
+      (product.subCategory?.toLowerCase().includes(lowerQuery) ?? false) ||
+      (product.category?.toLowerCase().includes(lowerQuery) ?? false)
+  );
+};
+
+// New helper functions for category organization
+export const getMainCategoryById = (mainCategoryId: string) => {
+  return mainCategories.find((cat) => cat.id === mainCategoryId);
+};
+
+export const getSubCategoryById = (mainCategoryId: string, subCategoryId: string) => {
+  const mainCat = getMainCategoryById(mainCategoryId);
+  return mainCat?.subCategories.find((sub) => sub.id === subCategoryId);
+};
+
+export const getProductsByMainCategory = (mainCategoryId: string) => {
+  return products.filter(
+    (product) => product.mainCategory === mainCategoryId || (product as any).category === mainCategoryId
+  );
+};
+
+export const getProductsBySubCategory = (mainCategoryId: string, subCategoryId: string) => {
+  return products.filter(
+    (product) =>
+      (product.mainCategory === mainCategoryId && product.subCategory === subCategoryId)
+  );
+};
+
+export const getProductsByCategory = (categoryId: string) => {
+  // For backward compatibility, treat categoryId as either mainCategory or old category
+  return products.filter(
+    (product) => 
+      product.mainCategory === categoryId || 
+      (product as any).category === categoryId
   );
 };
 
@@ -620,11 +413,29 @@ export const getQuizRecommendations = (
     filtered = filtered.filter((p) => p.occasion?.includes(occasion));
   }
 
-  // Filter by recipient (category)
+  // Filter by recipient (category) - works with both old and new structure
   if (recipient === "her") {
-    filtered = filtered.filter((p) => p.category === "for-her" || p.category === "for-couples" || p.category === "memory-gifts");
+    filtered = filtered.filter(
+      (p) => 
+        p.mainCategory === "gifts-for-her" || 
+        p.mainCategory === "couples-matching" ||
+        p.mainCategory === "sentimental-letters" ||
+        p.mainCategory === "jewelry" ||
+        (p as any).category === "for-her" || 
+        (p as any).category === "for-couples" || 
+        (p as any).category === "memory-gifts"
+    );
   } else if (recipient === "him") {
-    filtered = filtered.filter((p) => p.category === "for-him" || p.category === "for-couples" || p.category === "memory-gifts");
+    filtered = filtered.filter(
+      (p) => 
+        p.mainCategory === "gifts-for-him" || 
+        p.mainCategory === "couples-matching" ||
+        p.mainCategory === "sentimental-letters" ||
+        p.mainCategory === "jewelry" ||
+        (p as any).category === "for-him" || 
+        (p as any).category === "for-couples" || 
+        (p as any).category === "memory-gifts"
+    );
   }
 
   // Filter by budget
